@@ -2,9 +2,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long int ll;
-ll a[200000];
-ll segtree[1000000];
-
+vector<int>a;
+vector<int>segtree;
 void build(ll node,ll start,ll end)
 {
     if(start==end)
@@ -87,6 +86,8 @@ int main()
 ll n;
 cin>>n;
 ll i=0;
+a.resize(n);
+segtree.resize(4*n);
 while(i<=n-1)
 {
     cin>>a[i];
