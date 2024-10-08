@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> arr;
+vector<int> seg;
+
+void Segment(int index, int start, int end) {
+    if (start == end) {
+        seg[index] = arr[start];
+        return;
+   
+        
+    }
+    int mid = (start + end) / 2;
+    Segment(2 * index, start, mid);
+    Segment(2 * index + 1, mid + 1, end);
+    seg[index] = seg[2 * index] + seg[2 * index + 1];
+}
+
+void update(int index, int start, int end, int k, int val) {
+    if (start == end) {
+        seg[index] = arr[start] = val;
+       return;
+       
+    }
+    int mid = (start + end) / 2;
+    if (k <= mid) {
+        update(2 * index, start, mid, k, val);
+    } else {
+        update(2 * index + 1, mid + 1, end, k, val);
+    }
+    seg[index] = seg[2 * index] + seg[2 * index + 1];
+}
+
+int get(int index, int start, int end, int l, int r) {
+    if (start > r || end < l) {
+        return 0;
+    }
+    if (l <= start && end <= r) {
+        return seg[index];
+    }
+    int mid = (start + end) / 2;
+    return get(2 * index, start, mid, l, r) + get(2 * index + 1, mid + 1, end, l, r);
+}
+
+int main() {
+    int n;
+    cin >> n;
+    arr.resize(n);
+    seg.resize(4 * n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    Segment(1, 0, n - 1);
+    update(1, 0, n - 1, 4, 8);
+    int ans = get(1, 0, n - 1, 1, 4);
+
+    cout << ans << endl;
+
+    return 0;
+}    
+// whenever there is void function always return; please;
